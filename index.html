@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 1st Anniversary - Nadi & Sipa ❤️</title>
+  <style>
+    /* Reset & Fonts */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff4d6d, #ff85a1, #fff0f5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 15px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Hati Melayang Umum */
+    .bg-hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .heart-shape {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 20px;
+      animation: floatUp 6s infinite linear;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+      50% { opacity: 0.9; }
+      100% { transform: translateY(-10vh) scale(1.3) rotate(360deg); opacity: 0; }
+    }
+
+    /* Pemutar Musik Melayang (Tetap Nyala Terus Tanpa Terputus) */
+    .music-player-box {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #ff4d6d;
+      padding: 6px 12px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 99999;
+      box-shadow: 0 4px 15px rgba(255, 0, 84, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .music-player-box:active {
+      transform: scale(0.90);
+    }
+
+    #musicText {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #c9184a;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .playing {
+      animation: spin 3s linear infinite;
+    }
+
+    /* Sistem Halaman / Section SPA */
+    .section {
+      display: none;
+      width: 100%;
+      max-width: 410px;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .section.active {
+      display: flex;
+    }
+
+    /* Card Utama */
+    .card {
+      background: rgba(255, 255, 255, 0.94);
+      padding: 25px 20px;
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(217, 4, 41, 0.25);
+      text-align: center;
+      width: 100%;
+      backdrop-filter: blur(6px);
+      border: 3px solid #ffb3c1;
+      animation: bounceIn 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.03); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Elemen Khusus Home */
+    .couple-avatar {
+      font-size: 3rem;
+      margin-bottom: 5px;
+      display: inline-block;
+      animation: wiggle 2s infinite ease-in-out;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-8deg) scale(1); }
+      50% { transform: rotate(8deg) scale(1.1); }
+    }
+
+    .badge {
+      background: #ff758f;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 10px rgba(255, 117, 143, 0.3);
+    }
+
+    .title {
+      color: #c9184a;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .names {
+      color: #ff0054;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .heart-pulse {
+      display: inline-block;
+      color: #ff0054;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.3); }
+    }
+
+    .subtitle {
+      color: #800f2f;
+      font-size: 0.88rem;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+
+    .day-count {
+      background: #fff0f5;
+      border: 2px dashed #ff4d6d;
+      padding: 12px;
+      border-radius: 18px;
+      margin-bottom: 15px;
+      color: #a4133c;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .day-count span {
+      font-size: 1.3rem;
+      color: #ff0054;
+      font-weight: 800;
+    }
+
+    .message {
+      color: #590d22;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* Lokasi & Grid Foto Date */
+    .location {
+      color: #ff0054;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .photo-card {
+      background: #fff;
+      padding: 6px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 2px solid #ffccd5;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-card:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .photo-label {
+      font-size: 0.7rem;
+      color: #800f2f;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Catatan Diary */
+    .note-box {
+      background: #fff0f5;
+      border: 2px dashed #ff4d6d;
+      padding: 14px;
+      border-radius: 18px;
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .note-title {
+      color: #c9184a;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .note-content {
+      color: #590d22;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* Navigasi Tombol */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-prev {
+      background: #ffe5ec;
+      color: #c9184a;
+      border: 2px solid #ffb3c1;
+    }
+
+    .btn-next, .btn-home {
+      background: linear-gradient(45deg, #ff0054, #ff4d6d);
+      color: white;
+      box-shadow: 0 6px 15px rgba(255, 0, 84, 0.3);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Kuis Styling */
+    .question-box {
+      background: #fff0f5;
+      border: 2px dashed #ff4d6d;
+      padding: 14px;
+      border-radius: 18px;
+      margin-bottom: 15px;
+    }
+
+    .question-text {
+      color: #590d22;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .btn-option {
+      background: white;
+      border: 2px solid #ffb3c1;
+      color: #800f2f;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .btn-option:hover {
+      background: #ffe5ec;
+      border-color: #ff4d6d;
+    }
+
+    .btn-option.correct {
+      background: #d8f3dc !important;
+      border-color: #52b788 !important;
+      color: #1b4332 !important;
+    }
+
+    .btn-option.wrong {
+      background: #ffccd5 !important;
+      border-color: #ff0054 !important;
+      color: #590d22 !important;
+    }
+
+    .feedback {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      min-height: 22px;
+    }
+
+    .score-badge {
+      font-size: 1.3rem;
+      color: #ff0054;
+      font-weight: 800;
+      background: #fff0f5;
+      padding: 10px;
+      border-radius: 15px;
+      border: 2px dashed #ff4d6d;
+      margin-bottom: 12px;
+    }
+
+    .result-message {
+      color: #590d22;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      font-style: italic;
+      background: #fff5f7;
+      padding: 12px;
+      border-radius: 15px;
+    }
+
+    /* Halaman Penutup Khusus Background */
+    body.penutup-active {
+      background: linear-gradient(135deg, #590d22, #800f2f, #a4133c, #ff0054);
+      overflow: hidden;
+    }
+
+    .floating-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .polaroid-card {
+      position: absolute;
+      background: white;
+      padding: 4px 4px 14px 4px;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      width: 68px;
+      opacity: 0.65;
+      animation: floatSlow linear infinite;
+    }
+
+    .polaroid-card img {
+      width: 100%;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .polaroid-card::after {
+      content: '❤️';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.5;
+      animation: floatSlow linear infinite;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translateY(110vh) rotate(-5deg); }
+      100% { transform: translateY(-15vh) rotate(5deg); }
+    }
+
+    #fireworks-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pemutar Musik Melayang (Nyala Terus Tanpa Terputus) -->
+  <div class="music-player-box" onclick="toggleMusic()">
+    <span id="musicIcon">🎵</span>
+    <span id="musicText">Putar Musik</span>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="Honeybee.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ==================== HOME SECTION ==================== -->
+  <div id="sec-home" class="section active">
+    <div class="bg-hearts" id="hearts-home"></div>
+    <div class="card">
+      <div class="couple-avatar">👩‍❤️‍👨</div>
+      <div class="badge">✨ Happy 1st Anniversary ✨</div>
+      <div class="names">Nadi <span class="heart-pulse">💗</span> Sipa</div>
+      <h1 class="title">1 Tahun Bersama My Bubub Nadi!</h1>
+      <p class="subtitle">"1 year, 12 months, 52 weeks, 365 days of loving you. Happy anniversary!"</p>
+      <div class="day-count">
+        Kita Udah Bersama Selama:<br>
+        <span>365 Hari</span> (8.760 Jam eaaak)
+      </div>
+      <p class="message">
+        Happy 1st anniversary, sayang! Nggak kerasa ya, udah 365 hari kita ngelewatin banyak hal bareng. Makasih udah selalu jadi tempat ternyaman buat cerita, tertawa, dan bertumbuh. Yuk, kita lihat lagi momen date gemes kita satu per satu! 🌹✨
+      </p>
+      <button class="btn btn-next" onclick="goToSection('sec-date1')">Mulai Intip Kenangan ➔</button>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 1 ==================== -->
+  <div id="sec-date1" class="section">
+    <div class="bg-hearts" id="hearts-d1"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 1 / 8 ☕</div>
+      <h1 class="title" style="font-size: 1.4rem;">First Date Kita! 💕</h1>
+      <div class="location">📍Tebas, 09/11/2025</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar1.jpg"><div class="photo-label">First Flower 💐</div></div>
+        <div class="photo-card"><img src="gambar2.jpg"><div class="photo-label">Momen Makan Nasgor 🍛</div></div>
+        <div class="photo-card"><img src="gambar3.jpg"><div class="photo-label">CW ☕</div></div>
+        <div class="photo-card"><img src="gambar4.jpg"><div class="photo-label">Lucu🤏</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Masih ingat momen first meet dan first date kita? Sipa merasa canggung bangettt waktu itu heheh,takut juga Sipa ga sesuai ekspetasi Nadi.Tapi syukurlah Nadi bisa ajak Sipa ngobrol. Suka momen ini, lop uu💗</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-home')">⬅️ Kembali</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date2')">Date #2 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 2 ==================== -->
+  <div id="sec-date2" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 2 / 8 💖</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-2 Kita! ✨</h1>
+      <div class="location">📍Tebas, 01/02/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar5.jpg"><div class="photo-label">Jalan jalan 📸</div></div>
+        <div class="photo-card"><img src="gambar6.jpg"><div class="photo-label">Pecel Ayam 😋</div></div>
+        <div class="photo-card"><img src="gambar7.jpg"><div class="photo-label">JSSB yuhu</div></div>
+        <div class="photo-card"><img src="gambar8.jpg"><div class="photo-label">Dibeliin Boneka🫶</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Di date kedua ini rasa canggung Sipa udah lumayan hilang, ingat nggak sipa nepi di jalan keujanan wkwkwk. Ini kita main bener bener cuman berdua aja hehe yang sebelumnya kan bareng satu teman. Makasih boneka kucing nya, imutt seperti Nadi🫰</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date1')">⬅️ Date #1</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date3')">Date #3 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 3 ==================== -->
+  <div id="sec-date3" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 3 / 8 🌺</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-3 Kita! 🥰</h1>
+      <div class="location">📍Sambas, Rupa, 30/06/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar9.jpg"><div class="photo-label">Di Rupa gess 🩷</div></div>
+        <div class="photo-card"><img src="gambar10.jpg"><div class="photo-label">Paparazi kita 📸</div></div>
+        <div class="photo-card"><img src="gambar11.jpg"><div class="photo-label">Heheh salting 😖 ✨</div></div>
+        <div class="photo-card"><img src="gambar12.jpg"><div class="photo-label">lucuk ❤️</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Date ke3 kita yah after break hahaha, banyak waktu dan momen yang kelewat saat break. Kita ga fotbar lebaran😥 , tapi gapapa selanjutnya janji ga break lagi yah... Makasih Nadi udah mau memperbaiki hubungan kita waktu itu 💞</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date2')">⬅️ Date #2</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date4')">Date #4 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 4 ==================== -->
+  <div id="sec-date4" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 4 / 8 🌷</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-4 Kita! 💗</h1>
+      <div class="location">📍Pemangkat, 04/07/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar13.jpg"><div class="photo-label">Kita keliling PMK🫣</div></div>
+        <div class="photo-card"><img src="gambar14.jpg"><div class="photo-label">Selfi dulu ah📸</div></div>
+        <div class="photo-card"><img src="gambar15.jpg"><div class="photo-label">Dianterin pulang👋</div></div>
+        <div class="photo-card"><img src="gambar16.jpg"><div class="photo-label">Nyandar ke my cinta❤️</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Hehe ga tau si ini masuk date atau engga,tapi kan kita ketemuan juga walau bentar. Hmm klo g salah ingat pas di jalan balik physical touch kita meningkat di siniii ehehehe sukaa banget💕💞</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date3')">⬅️ Date #3</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date5')">Date #5 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 5 ==================== -->
+  <div id="sec-date5" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 5 / 8 💖</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-5 Kita! ✨</h1>
+      <div class="location">📍Tebas, 11/07/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar17.jpg"><div class="photo-label">umm comel nyee🤏</div></div>
+        <div class="photo-card"><img src="gambar18.jpeg"><div class="photo-label">makann😋</div></div>
+        <div class="photo-card"><img src="gambar19.jpg"><div class="photo-label">gaya kerenn😛 ✨</div></div>
+        <div class="photo-card"><img src="gambar20.jpg"><div class="photo-label">singgah dibeliin roti bakar🫰</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Doubel datee bareng besti nadi robi. Ini date terakhir nadi kerja las, senin nadi kerja di PLN 🥹</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date4')">⬅️ Date #4</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date6')">Date #6 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 6 ==================== -->
+  <div id="sec-date6" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 6 / 8 🎀</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-6 Kita! 💕</h1>
+      <div class="location">📍Sambas, 02/08/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar21.jpg"><div class="photo-label">gacoan🍝</div></div>
+        <div class="photo-card"><img src="gambar22.jpg"><div class="photo-label">photobooth🥰</div></div>
+        <div class="photo-card"><img src="gambar23.jpg"><div class="photo-label">keraton😚</div></div>
+        <div class="photo-card"><img src="gambar24.jpg"><div class="photo-label">karya cantik kita💗</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Date di Sambas paling berkesan bagi Sipa. Kita puas banget main di keraton, main sepeda listrik seruu bangettt, mewarnai juga asik heheh walaupun agak berantakan wkwkw😆</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date5')">⬅️ Date #5</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date7')">Date #7 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 7 ==================== -->
+  <div id="sec-date7" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 7 / 8 💖</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Ke-7 Kita! ✨</h1>
+      <div class="location">📍Pemangkat, 13/09/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar25.jpg"><div class="photo-label">nyamm makann😋</div></div>
+        <div class="photo-card"><img src="gambar26.jpg"><div class="photo-label">abis makan cekrek📸</div></div>
+        <div class="photo-card"><img src="gambar27.jpg"><div class="photo-label">lanjut ke 5cm✨</div></div>
+        <div class="photo-card"><img src="gambar28.png"><div class="photo-label">makasihh hadiahnya🥹🩷</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Sipa sukaa date kli inii, Nadi beliin Sipa makanan enak,dimsum enakk, dan nggak nyangka Nadi beri Sipa hadiahh awww TERIMA KASIH BANYAK NADI untuk semua hal yang Nadi beri ke Sipa🥹. Maaf selama ini Sipa belum ada beri Nadi apapun🥺🙏 tapi Sipa doakan semoga rejeki Nadi lancar terus, makin bertambahh dan semoga kedepannya makin suksess aminn🥰</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date6')">⬅️ Date #6</button>
+        <button class="btn btn-next" onclick="goToSection('sec-date8')">Date #8 ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE 8 ==================== -->
+  <div id="sec-date8" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kenangan 8 / 8 🌟</div>
+      <h1 class="title" style="font-size: 1.4rem;">Date Terakhir Kita! 💖</h1>
+      <div class="location">📍Pemangkat, 04/10/2026</div>
+      <div class="photo-grid">
+        <div class="photo-card"><img src="gambar29.jpeg"><div class="photo-label">abis main isi energi🫢</div></div>
+        <div class="photo-card"><img src="gambar30.jpeg"><div class="photo-label">mantap🤘</div></div>
+        <div class="photo-card"><img src="gambar31.jpg"><div class="photo-label">sibuk hp dia ges🙄</div></div>
+        <div class="photo-card"><img src="gambar32.jpg"><div class="photo-label">foto lagii❤️</div></div>
+      </div>
+      <div class="note-box">
+        <div class="note-title">📝 Catatan Sipa untuk Nadi:</div>
+        <p class="note-content">Date paling beresiko😖 udah sejauh ini kita, sudah saling unboxing dan mencicipi satu sama lain🫣 maaf emang dari awal sipa yang mancing nadi teruss hehehe. Sipa harap rahasia ini bisa dijaga, jangan di sebar luaskan apalagi barang bukti itu🥺🙏 tapi jujur sipa menikmati banget😗 dengan kita melakukan hal ini pokoknya kita harus nikah!! janjii yaa kita nanti harus nikahh🤗.Okee setelah ini ada kuis buat nadi hehe</p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-date7')">⬅️ Date #7</button>
+        <button class="btn btn-next" onclick="goToSection('sec-quiz')">Mulai Kuis! 🎯</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== KUIS SECTION ==================== -->
+  <div id="sec-quiz" class="section">
+    <div class="bg-hearts"></div>
+    <div class="card">
+      <div class="page-tag">Kuis Perjalanan Cinta 🎯</div>
+      
+      <div id="quiz-box">
+        <h1 class="title" id="quiz-title" style="font-size: 1.2rem;">Seberapa Jago Nadi Mengingat Tentang Hubungan Kita? 🤔</h1>
+        <div class="question-box">
+          <p class="question-text" id="question">Memuat pertanyaan...</p>
+        </div>
+        <div class="options-container" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="nav-buttons">
+          <button class="btn btn-prev" onclick="goToSection('sec-date8')">⬅️ Date #8</button>
+        </div>
+      </div>
+
+      <div id="result-container" style="display: none;">
+        <h1 class="title">Hasil Kuis Nadi! 🎉</h1>
+        <div class="score-badge" id="score-text">Skor: 0 / 10</div>
+        <p class="result-message" id="result-msg">Memuat pesan...</p>
+        <div class="nav-buttons">
+          <button class="btn btn-prev" onclick="goToSection('sec-date8')">⬅️ Cek Date Lagi</button>
+          <button class="btn btn-next" onclick="goToSection('sec-penutup')">Kejutan Akhir ❤️➔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PENUTUP SECTION ==================== -->
+  <div id="sec-penutup" class="section">
+    <canvas id="fireworks-canvas"></canvas>
+    <div class="floating-container" id="floating-bg"></div>
+    <div class="card" style="position: relative; z-index: 10;">
+      <div class="page-tag">Forever & Always 💖💍</div>
+      <h1 class="title">Happy 1st Anniversary! 🎉</h1>
+      <p class="subtitle">"365 Hari terindah bersama Nadi tercinta ✨"</p>
+      <div class="closing-box" style="background: #fff0f5; border: 2px dashed #ff4d6d; padding: 14px; border-radius: 18px; text-align: left; margin-bottom: 15px;">
+        <div class="closing-title" style="color: #c9184a; font-size: 0.9rem; font-weight: 800; margin-bottom: 6px;">💌 Pesan Spesial untuk Nadi:</div>
+        <p class="closing-text" style="color: #590d22; font-size: 0.84rem; line-height: 1.5;">
+          Terima kasih banyak ya Nadi, rumah ternyaman buat Sipa. Selama 1 tahun ini, Nadi udah ngasih banyak banget kebahagiaan, tawa, dan cinta yang tulus. Makasih udah selalu sabar, nemenin di setiap keadaan, dan bikin hari-hari Sipa jadi seindah ini. Semoga kita bisa terus tumbuh bareng, lewatin ribuan hari ke depan, dan bisa ke jenjang yang lebih serius. I love you so much, Nadi! 🫂🌹✨💕
+        </p>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn btn-prev" onclick="goToSection('sec-quiz')">⬅️ Ke Kuis</button>
+        <button class="btn btn-home" onclick="goToSection('sec-home')">Ulang dari Awal 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. KONTROL MUSIK LATAR BELAKANG (NYALA TERUS TANPA TERPUTUS) ---
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicText = document.getElementById('musicText');
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (!isPlaying) {
+        bgMusic.play().then(() => {
+          isPlaying = true;
+          musicIcon.classList.add('playing');
+          musicText.innerText = "Musik Nyala ❤️";
+        }).catch(err => console.log(err));
+      } else {
+        bgMusic.pause();
+        isPlaying = false;
+        musicIcon.classList.remove('playing');
+        musicText.innerText = "Putar Musik";
+      }
+    }
+
+    // --- 2. SISTEM NAVIGASI SPA (SINGLE PAGE) ---
+    function goToSection(secId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(secId).classList.add('active');
+      window.scrollTo(0, 0);
+
+      // Ubah background body jika masuk/keluar dari halaman penutup
+      if (secId === 'sec-penutup') {
+        document.body.classList.add('penutup-active');
+        initPenutupEffects();
+      } else {
+        document.body.classList.remove('penutup-active');
+      }
+    }
+
+    // --- 3. EFEK HATI MELAYANG DI HOME & DATES ---
+    function createHeart(containerId) {
+      const container = document.getElementById(containerId);
+      if(!container) return;
+      const icons = ['❤️', '💖', '💕', '🌸', '✨', '🍓'];
+      const heart = document.createElement('div');
+      heart.classList.add('heart-shape');
+      heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+      heart.style.fontSize = Math.random() * 12 + 16 + 'px';
+      container.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    ['hearts-home', 'hearts-d1'].forEach(id => {
+      setInterval(() => createHeart(id), 400);
+    });
+
+    // --- 4. KUIS INTERAKTIF ---
+    const quizData = [
+      { question: "1. Berapa lama waktu yang kita habiskan sampai akhirnya pacaran?", options: ["A. Secepat kilat (kurang dari 5 hari)", "B. Sebulan", "C. Tujuh hari", "D. Kurang dari 2 minggu"], correct: 3 },
+      { question: "2. Kapan waktu persisnya kita jadian?", options: ["A. 25/10/2026 pagi", "B. 25/10/2026 siang", "C. 25/10/2026 sore", "D. 25/10/2026 malam"], correct: 3 },
+      { question: "3. Dimana tempat kita first date?", options: ["A. DIY", "B. Cw coffee", "C. Tri-w cafe", "D. Tempat makan pecel lele"], correct: 1 },
+      { question: "4. Apa hadiah pertama yang Nadi kasi ke Sipa?", options: ["A. Boneka", "B. Jedai", "C. Bunga", "D. Tas"], correct: 2 },
+      { question: "5. Apa sebab yang sering membuat kita telat saat mau pergi main berdua?", options: ["A. Hujan", "B. Sipa lama siap-siap", "C. Nadi ketiduran", "D. Ada angin puting beliung"], correct: 0 },
+      { question: "6. Kalau Sipa tidak balas chat dan menghilang >3 jam (bukan jam tidur/belajar), kemungkinan besar Sipa lagi apa?", options: ["A. Keasikan nonton", "B. Sibuk chatan sama orang lain", "C. Main sama temen", "D. Ngambek sama Nadi"], correct: 3 },
+      { question: "7. Apa yang sering menjadi alasan Sipa tiba-tiba badmood/ngambek?", options: ["A. Lapar", "B. Wifi ngelek", "C. Chat gak dibalas sama Nadi", "D. Mau tidur tapi gak bisa karna panas"], correct: 2 },
+      { question: "8. Kalau Sipa lagi marah, apa yang biasa Sipa lakukan?", options: ["A. Marah-marah ke Nadi", "B. Diam aja", "C. Buat story galau", "D. Minta putus"], correct: 1 },
+      { question: "9. Jika nanti kita nikah, maksimal berapa anak kita nanti?", options: ["A. Satu", "B. Dua", "C. Tiga", "D. Empat"], correct: 1 },
+      { question: "10. Target kita untuk nikah nantinya di umur berapa?", options: ["A. 22 tahun", "B. 23 tahun", "C. 24 tahun", "D. 25 tahun"], correct: 3 }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const quizBox = document.getElementById("quiz-box");
+    const resultContainer = document.getElementById("result-container");
+    const scoreText = document.getElementById("score-text");
+    const resultMsg = document.getElementById("result-msg");
+
+    function loadQuiz() {
+      feedbackEl.innerHTML = "";
+      const currentQuiz = quizData[currentQuestion];
+      questionEl.innerText = currentQuiz.question;
+      optionsEl.innerHTML = "";
+      currentQuiz.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.classList.add("btn-option");
+        button.innerText = option;
+        button.addEventListener("click", () => selectOption(index, button));
+        optionsEl.appendChild(button);
+      });
+    }
+
+    function selectOption(index, button) {
+      const currentQuiz = quizData[currentQuestion];
+      const allButtons = optionsEl.querySelectorAll(".btn-option");
+      allButtons.forEach(btn => btn.disabled = true);
+
+      if (index === currentQuiz.correct) {
+        button.classList.add("correct");
+        feedbackEl.innerHTML = "Yeay, jawaban Nadi benar! 🥰✨";
+        feedbackEl.style.color = "#2d6a4f";
+        score++;
+      } else {
+        button.classList.add("wrong");
+        feedbackEl.innerHTML = "Ups, salah! Sipa bakal protes nih hehe ❤️";
+        feedbackEl.style.color = "#c9184a";
+      }
+
+      currentQuestion++;
+      setTimeout(() => {
+        if (currentQuestion < quizData.length) {
+          loadQuiz();
+        } else {
+          quizBox.style.display = "none";
+          resultContainer.style.display = "block";
+          scoreText.innerText = `Skor Nadi: ${score} / 10 💖`;
+          if (score >= 8) {
+            resultMsg.innerHTML = `✨ <b>Wihhhh, mantepp banget, Nadi!</b> Nilai Nadi ${score}/10! Nadi benar-benar ingat semua detail perjalanan dan hal kecil tentang kita. Sipa jadi makin sayang dan cinta banget sama Nadiii! 🥰❤️`;
+          } else if (score >= 5) {
+            resultMsg.innerHTML = `🌸 <b>Lumayan bagus, Nadi!</b> Skor kamu ${score}/10. Masih ingat sebagian besar momen penting kita. Yuk, terus bikin banyak kenangan indah lagi bareng Sipa! ✨💕`;
+          } else {
+            resultMsg.innerHTML = `🤭 <b>Duh, kok skornya kecil?</b> Nilai kamu cuma ${score}/10 nih, Nadi! Kayaknya harus sering-sering di-ingetin lagi sama Sipa nih tentang memori kita. Tapi tenang aja, Nadi tetap kesayangan Sipa selamanya kok! 🫂❤️`;
+          }
+        }
+      }, 1500);
+    }
+    loadQuiz();
+
+    // --- 5. EFEK PENUTUP (32 POLAROID, EMOJI, & KEMBANG API) ---
+    let penutupInitialized = false;
+    function initPenutupEffects() {
+      if (penutupInitialized) return;
+      penutupInitialized = true;
+
+      const bgContainer = document.getElementById('floating-bg');
+      const photoFiles = [];
+      for(let i = 1; i <= 32; i++) {
+        let ext = 'jpg';
+        if(i === 18 || i === 29 || i === 30) ext = 'jpeg';
+        if(i === 28) ext = 'png';
+        photoFiles.push(`gambar${i}.${ext}`);
+      }
+
+      const totalColumns = 8;
+      const colWidth = 100 / totalColumns;
+
+      photoFiles.forEach((file, index) => {
+        const card = document.createElement('div');
+        card.classList.add('polaroid-card');
+        const img = document.createElement('img');
+        img.src = file;
+        img.onerror = function() { card.style.display = 'none'; };
+        card.appendChild(img);
+
+        const colIndex = index % totalColumns;
+        const randomXOffset = (Math.random() * 4 - 2);
+        card.style.left = ((colIndex * colWidth) + 2 + randomXOffset) + 'vw';
+        card.style.animationDuration = (Math.random() * 15 + 25) + 's';
+        card.style.animationDelay = '-' + ((index * 0.8) + (Math.random() * 5)) + 's';
+        bgContainer.appendChild(card);
+      });
+
+      const emojis = ['💖', '❤️', '💕', '💐', '💍', '✨', '🧸', '💌', '🌹', '🥰'];
+      for(let j = 0; j < 25; j++) {
+        const span = document.createElement('span');
+        span.classList.add('floating-emoji');
+        span.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        span.style.left = (Math.random() * 95) + 'vw';
+        span.style.animationDuration = (Math.random() * 10 + 20) + 's';
+        span.style.animationDelay = '-' + (Math.random() * 15) + 's';
+        bgContainer.appendChild(span);
+      }
+
+      // Kembang Api Love Raksasa
+      const canvas = document.getElementById('fireworks-canvas');
+      const ctx = canvas.getContext('2d');
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor(x, y, color, angle, speed) {
+          this.x = x; this.y = y; this.color = color;
+          this.angle = angle; this.speed = speed;
+          this.friction = 0.94; this.gravity = 0.04;
+          this.alpha = 1; this.decay = Math.random() * 0.012 + 0.008;
+        }
+        update() {
+          this.speed *= this.friction;
+          this.x += Math.cos(this.angle) * this.speed;
+          this.y += Math.sin(this.angle) * this.speed + this.gravity;
+          this.alpha -= this.decay;
+        }
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = this.alpha;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      let fireworks = [];
+      function createGiantHeartFirework() {
+        const x = Math.random() * (canvas.width - 150) + 75;
+        const y = Math.random() * (canvas.height * 0.6) + 40;
+        const colors = ['#ff4d6d', '#ff0054', '#ff758f', '#ffccd5', '#ffffff', '#ff85a1'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        for (let t = 0; t < Math.PI * 2; t += 0.07) {
+          let hx = 16 * Math.pow(Math.sin(t), 3);
+          let hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+          let speed = Math.sqrt(hx*hx + hy*hy) * 0.35;
+          let angle = Math.atan2(hy, hx);
+          fireworks.push(new Particle(x, y, color, angle, speed + Math.random() * 0.4));
+        }
+      }
+
+      function animateFireworks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        fireworks.forEach((particle, index) => {
+          particle.update();
+          particle.draw();
+          if (particle.alpha <= 0) fireworks.splice(index, 1);
+        });
+        requestAnimationFrame(animateFireworks);
+      }
+      setInterval(createGiantHeartFirework, 900);
+      animateFireworks();
+    }
+  </script>
+</body>
+</html>
